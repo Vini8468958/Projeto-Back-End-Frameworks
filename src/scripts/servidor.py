@@ -15,7 +15,6 @@ NGROK_AUTH_TOKEN = "32Bvo2Y2fKQ9lv3NnEs9RdEpnJZ_3Z8bZissoyT71en9D5XFa"
 DB_PATH = os.path.join("src", "data", "tarefas.db")
 
 def conectar_bd():
-    """Conecta ao banco de dados SQLite."""
     try:
         conn = sqlite3.connect(DB_PATH)
         conn.row_factory = sqlite3.Row  
@@ -25,7 +24,6 @@ def conectar_bd():
         return None
 
 def _formatar_tarefa(row):
-    """Converte uma linha do banco de dados (sqlite3.Row) para um dicionário compatível com JSON."""
     if not row:
         return None
     
@@ -181,7 +179,6 @@ class TaskHandler(http.server.BaseHTTPRequestHandler):
     def _send_error_response(self, status_code, message):
         self._send_response(status_code, {"erro": message})
 
-# --- Bloco Principal para Iniciar o Servidor ---
 if __name__ == "__main__":
     if NGROK_AUTH_TOKEN != "32Bvo2Y2fKQ9lv3NnEs9RdEpnJZ_3Z8bZissoyT71en9D5XFa":
         print("ERRO: Por favor, configure o seu NGROK_AUTH_TOKEN")
