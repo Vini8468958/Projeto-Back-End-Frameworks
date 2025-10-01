@@ -79,9 +79,7 @@ class TaskHandler(http.server.BaseHTTPRequestHandler):
         else:
             self._send_error_response(404, "Caminho não encontrado no servidor.")
 
-    # --- ADICIONADO: PUT ---
     def do_PUT(self):
-        # DEBUG: Imprime a requisição recebida no terminal do servidor
         print(f"[SERVIDOR] Recebida requisição PUT para o caminho: '{self.path}'")
 
         match = re.match(r'/tasks/(\d+)', self.path)
@@ -92,7 +90,6 @@ class TaskHandler(http.server.BaseHTTPRequestHandler):
             if tarefa:
                 try:
                     dados = self._get_json_body()
-                    # Atualiza apenas os campos enviados no corpo da requisição
                     if 'titulo' in dados:
                         tarefa['titulo'] = dados['titulo']
                     if 'descricao' in dados:
