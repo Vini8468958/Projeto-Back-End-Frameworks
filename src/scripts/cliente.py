@@ -97,7 +97,6 @@ def deletar_tarefa(task_id):
 # INTERFACE
 
 def exibir_tarefas(tarefas):
-    """Exibe a lista de tarefas de forma formatada."""
     if tarefas is None:
         return
     if not tarefas:
