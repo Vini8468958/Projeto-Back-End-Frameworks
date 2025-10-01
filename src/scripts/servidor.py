@@ -78,7 +78,36 @@ class TaskHandler(http.server.BaseHTTPRequestHandler):
                 self._send_error_response(404, "Tarefa não encontrada.")
         else:
             self._send_error_response(404, "Caminho não encontrado no servidor.")
-            
+
+    # --- ADICIONADO: PUT ---
+    def do_PUT(self):
+        # DEBUG: Imprime a requisição recebida no terminal do servidor
+        print(f"[SERVIDOR] Recebida requisição PUT para o caminho: '{self.path}'")
+
+        match = re.match(r'/tasks/(\d+)', self.path)
+        if match:
+            task_id = int(match.group(1))
+            tarefa = next((t for t in TAREFAS_MOCK if t['id'] == task_id), None)
+
+            if tarefa:
+                try:
+                    dados = self._get_json_body()
+                    # Atualiza apenas os campos enviados no corpo da requisição
+                    if 'titulo' in dados:
+                        tarefa['titulo'] = dados['titulo']
+                    if 'descricao' in dados:
+                        tarefa['descricao'] = dados['descricao']
+                    if 'status' in dados:
+                        tarefa['status'] = dados['status']
+
+                    self._send_response(200, tarefa)
+                except (json.JSONDecodeError, ValueError):
+                    self._send_error_response(400, "Corpo da requisição inválido.")
+            else:
+                self._send_error_response(404, "Tarefa não encontrada.")
+        else:
+            self._send_error_response(404, "Caminho não encontrado no servidor.")        
+
     # --- Funções Auxiliares ---
     def _get_json_body(self):
         content_length = int(self.headers['Content-Length'])
@@ -97,9 +126,7 @@ class TaskHandler(http.server.BaseHTTPRequestHandler):
 # --- Bloco Principal para Iniciar o Servidor e o Túnel Ngrok ---
 if __name__ == "__main__":
     if NGROK_AUTH_TOKEN == "SEU_TOKEN_AQUI":
-        
         print("!!! ERRO: Por favor, configure o seu NGROK_AUTH_TOKEN !!!")
-        
     else:
         ngrok.set_auth_token(NGROK_AUTH_TOKEN)
         with socketserver.TCPServer(("", PORT), TaskHandler) as httpd:
@@ -113,4 +140,3 @@ if __name__ == "__main__":
             finally:
                 ngrok.disconnect(public_url)
                 print("\nTúnel do Ngrok fechado.")
-
