@@ -1,7 +1,7 @@
 import requests
 
 # IMPORTANTE: Esta URL deve ser atualizada sempre que o servidor for reiniciado.
-BASE_URL = "https://8a36e5500b80.ngrok-free.app"
+BASE_URL = "https://6f1a66231bbd.ngrok-free.app"
 
 # ##########################################################################
 # ## SOLUÇÃO: Este cabeçalho especial ignora a página de aviso do ngrok. ##

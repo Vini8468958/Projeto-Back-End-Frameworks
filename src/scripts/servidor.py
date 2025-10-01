@@ -97,9 +97,9 @@ class TaskHandler(http.server.BaseHTTPRequestHandler):
 # --- Bloco Principal para Iniciar o Servidor e o Túnel Ngrok ---
 if __name__ == "__main__":
     if NGROK_AUTH_TOKEN == "SEU_TOKEN_AQUI":
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        
         print("!!! ERRO: Por favor, configure o seu NGROK_AUTH_TOKEN !!!")
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        
     else:
         ngrok.set_auth_token(NGROK_AUTH_TOKEN)
         with socketserver.TCPServer(("", PORT), TaskHandler) as httpd:
